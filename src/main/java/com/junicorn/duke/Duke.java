@@ -1,8 +1,13 @@
 package com.junicorn.duke;
 
+import java.lang.reflect.Method;
+
 import com.junicorn.duke.config.ConfigLoader;
+import com.junicorn.duke.render.JspRender;
 import com.junicorn.duke.render.Render;
 import com.junicorn.duke.route.Routers;
+import com.junicorn.duke.servlet.wrapper.Request;
+import com.junicorn.duke.servlet.wrapper.Response;
 
 public class Duke {
 
@@ -53,7 +58,7 @@ public class Duke {
 	private Duke(){
 		routers = new Routers();
 		configloader = new ConfigLoader();
-		render = new Render();
+		render = new JspRender();
 	}
 	
 	
