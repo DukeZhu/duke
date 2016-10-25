@@ -65,4 +65,40 @@ public class Duke {
 		return DukeHolder.ME;
 	}
 	
+	public Duke loadConf(String conf){
+		configloader.load(conf);
+		return this;
+	}
+	public Duke setConf(String name, String value){
+		configloader.setConf(name, value);
+		return this;		 
+	}
+	public String getConf(String name){
+		return configloader.getConf(name);
+	}
+	
+	public Duke addRoutes(Routers routers){
+		this.routers.addRoute(routers.getRoutes());
+		return this;
+	}
+	
+	/**
+	 * 添加路由
+	 * @param path			映射的PATH
+	 * @param methodName	方法名称
+	 * @param controller	控制器对象
+	 * @return				返回Mario
+	 */
+	public Duke addRoute(String path, String methodName, Object controller){
+		try {
+			Method method = controller.getClass().getMethod(methodName, Request.class, Response.class);
+			this.routers.addRoute(path, method, controller);
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		}
+		return this;
+	}
+	
 }
