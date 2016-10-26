@@ -1,6 +1,7 @@
 package com.junicorn.duke.controller;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
@@ -14,11 +15,16 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.junicorn.duke.Bootstrap;
 import com.junicorn.duke.Duke;
+import com.junicorn.duke.DukeContext;
 import com.junicorn.duke.route.Route;
 import com.junicorn.duke.route.RouteMatcher;
 import com.junicorn.duke.route.Routers;
+import com.junicorn.duke.servlet.wrapper.Request;
+import com.junicorn.duke.servlet.wrapper.Response;
 import com.junicorn.util.PathUtil;
+import com.junicorn.util.ReflectUtil;
 
 public class DukeFilter implements Filter{
 
@@ -43,7 +49,7 @@ public class DukeFilter implements Filter{
         // 请求的uri
         String uri = PathUtil.getRelativePath(request);
 
-        LOGGER.info("Request URI：" + uri);
+        //Logger.global..info("Request URI：" + uri);
 
         Route route = routeMatcher.findRoute(uri);
 
@@ -62,7 +68,7 @@ public class DukeFilter implements Filter{
         // 初始化上下文
         Request request = new Request(httpServletRequest);
         Response response = new Response(httpServletResponse);
-        MarioContext.initContext(servletContext, request, response);
+        DukeContext.initContext(servletContext, request, response);
 
         Object controller = route.getController();
         // 要执行的路由方法
